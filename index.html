@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>TEST</title>
+    <link rel="icon" type="image/png" href="Img/favicon.png"/>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="jquery.ripples.js"></script>
+    <script src="libraries/p5.min.js"></script>
+    <!-- <script src="libraries/p5.sound.min.js"></script> -->
+    <script src="sketch.js"></script>
+    
+  </head>
+
+  <body>
+    <div id="canvas-container"></div>
+    <div class="ripple"></div>
+    <script>
+    $('.ripple').ripples({
+      dropRadius: 20,
+      perturbance: 0.02
+    });
+    </script>
+  </body>
+</html>
