@@ -12,6 +12,24 @@
     <script src="libraries/p5.min.js"></script>
     <!-- <script src="libraries/p5.sound.min.js"></script> -->
     <script src="sketch.js"></script>
+    <script>
+     // 建立 WebSocker
+     let url = 'wss://sandididi.xyz:3000'
+     var ws = new WebSocket(url)
+
+      // Listen for possible errors
+     ws.addEventListener('error', (event) => {
+       console.log('WebSocket error: ', event);
+     });
+
+      // 監聽連線狀態
+     ws.onopen = () => {
+       console.log('open connection')
+     }
+     ws.onclose = () => {
+       console.log('close connection');
+     }
+    </script>
     
   </head>
 

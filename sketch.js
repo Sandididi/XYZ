@@ -1,4 +1,3 @@
-
 let bgIndex = 0;
 let backgroundImgs;
 let mobileBGImgs;
@@ -83,7 +82,7 @@ function preload() {
   ];
 
   boxs = loadModel('Img/cube.obj');
-  BGmodel = loadModel('Img/bg.obj');
+  BGmodel = loadModel('Img/BG.obj');
   flower = loadModel('Img/flower.obj');
 }
 
