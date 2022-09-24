@@ -12,25 +12,6 @@
     <script src="libraries/p5.js"></script>
     <!-- <script src="libraries/p5.sound.min.js"></script> -->
     <script src="sketch.js"></script>
-    <script>
-     // 建立 WebSocker
-     let url = 'wss://sandididi.xyz:3000'
-     var ws = new WebSocket(url)
-
-      // Listen for possible errors
-     ws.addEventListener('error', (event) => {
-       console.log('WebSocket error: ', event);
-     });
-
-      // 監聽連線狀態
-     ws.onopen = () => {
-       console.log('open connection')
-     }
-     ws.onclose = () => {
-       console.log('close connection');
-     }
-    </script>
-    
   </head>
 
   <body>
@@ -41,23 +22,69 @@
       <h5>請允許開啟相機並使用chrome瀏覽器進入花園...</h5>
     </div>
     <script>
-    $('.ripple').ripples({
-      resolution: 512,
-      dropRadius: 16,
-      perturbance: 0.2
-    });
-    $('.alert').click(function(){
-      $('.alert').fadeOut();
-    });
-    // Automatic drops
-    setInterval(function() {
-        var $el = $('.ripple');
-        var x = Math.random() * $el.outerWidth();
-        var y = Math.random() * $el.outerHeight();
-        var dropRadius = 20;
-        var strength = 0.6 + Math.random() * 0.04;
-        $el.ripples('drop', x, y, dropRadius, strength);
-      }, 1000);
+      // click to fade out the alert message.
+      $('.alert').click(function () {
+        $('.alert').fadeOut();
+      });
+    </script>
+
+    <script>
+      // an array to recieve other clients' coordinate.
+      let coordinate = [];
+      // a variable to record each event's time stamp.
+      let timeStamp = 0;
+
+      // 建立 WebSocket
+      let url = 'wss://sandididi.xyz:3000'
+      const ws = new WebSocket(url)
+
+      // Listen for possible errors
+      ws.addEventListener('error', (event) => {
+        console.log('WebSocket error: ', event);
+      });
+
+      // Handle mouse click event.
+      document.addEventListener('click', event => {
+        // get and record current time stamp.
+        timeStamp = event.timeStamp;
+        // pack up data ready to be sent.
+        let data = [event.timeStamp, event.clientX, event.clientY];
+        // send data.
+        ws.send(data);
+      });
+
+      // 監聽連線狀態
+      ws.onopen = () => {
+        console.log('open connection')
+      };
+      ws.onclose = () => {
+        console.log('close connection');
+      };
+      //接收 Server 發送的訊息
+      ws.onmessage = event => {
+        // split received data.
+        let buffer = event.data.split(',');
+
+        // filter out the event from current client itself.
+        if (timeStamp != buffer[0]) {
+          coordinate.push(parseInt(buffer[1]));
+          coordinate.push(parseInt(buffer[2]));
+          var x = coordinate[0];
+          var y = coordinate[1];
+          var dropRadius = 20;
+          var strength = 0.6 + Math.random() * 0.04;
+          $('.ripple').ripples('drop', x, y, dropRadius, strength);
+          // clear coordinate.
+          coordinate.pop();
+          coordinate.pop();
+        }
+      };
+
+      $('.ripple').ripples({
+        resolution: 512,
+        dropRadius: 16,
+        perturbance: 0.2
+      });
     </script>
   </body>
 </html>
