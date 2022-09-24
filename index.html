@@ -42,12 +42,22 @@
     </div>
     <script>
     $('.ripple').ripples({
+      resolution: 512,
       dropRadius: 16,
       perturbance: 0.2
     });
     $('.alert').click(function(){
       $('.alert').fadeOut();
     });
+    // Automatic drops
+    setInterval(function() {
+        var $el = $('.ripple');
+        var x = Math.random() * $el.outerWidth();
+        var y = Math.random() * $el.outerHeight();
+        var dropRadius = 20;
+        var strength = 0.6 + Math.random() * 0.04;
+        $el.ripples('drop', x, y, dropRadius, strength);
+      }, 1000);
     </script>
   </body>
 </html>
