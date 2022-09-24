@@ -1,6 +1,7 @@
 
 let vid1;
 let vid2;
+let gif;
 let cam;
 let BGmodel;
 let boxs;
@@ -19,7 +20,7 @@ function preload() {
   vid1.hide();
   vid2 = createVideo('Img/gardenBG9-16blur.mp4');
   vid2.hide();
-
+  gif = loadImage('Img/gifTest.gif');
 }
 
 
@@ -39,6 +40,8 @@ function setup() {
   textureMode(NORMAL);
   
   describe('rectangle with video as texture');
+  vid1.loop();
+  vid2.loop();
 }
 
 function draw() {
@@ -133,9 +136,9 @@ function draw() {
 
   push();
   if(screenH>screenW){
-    texture(vid2);
+    texture(gif);
   }else{
-    texture(vid1);
+    texture(gif);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -154,7 +157,7 @@ function bumpin(A,r,f,angle){
 }
 
 //序列
-function mousePressed(){
-  vid1.loop();
-  vid2.loop();
-}
+// function mousePressed(){
+//   vid1.loop();
+//   vid2.loop();
+// }
