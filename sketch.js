@@ -1,7 +1,6 @@
 
 let vid1;
 let vid2;
-let gif;
 let cam;
 let BGmodel;
 let boxs;
@@ -20,7 +19,10 @@ function preload() {
   vid1.hide();
   vid2 = createVideo('Img/gardenBG9-16blur.mp4');
   vid2.hide();
-  gif = loadImage('Img/gifTest.gif');
+  vid1.elt.setAttribute('playsinline', true);
+  vid1.elt.setAttribute('autoplay', true);
+  vid2.elt.setAttribute('playsinline', true);
+  vid2.elt.setAttribute('autoplay', true);
 }
 
 
@@ -40,8 +42,6 @@ function setup() {
   textureMode(NORMAL);
   
   describe('rectangle with video as texture');
-  vid1.elt.setAttribute('playsinline', true);
-  vid1.elt.setAttribute('autoplay', true);
 }
 
 function draw() {
