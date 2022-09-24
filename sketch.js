@@ -1,6 +1,6 @@
-let bgIndex = 0;
-let backgroundImgs;
-let mobileBGImgs;
+
+let vid1;
+let vid2;
 let cam;
 let BGmodel;
 let boxs;
@@ -11,79 +11,15 @@ let rows = 6, cols=10;
 let roangle=0;
 
 
-
-
 function preload() {
-  backgroundImgs = [
-    loadImage('Img/050.jpg'),
-    loadImage('Img/051.jpg'),
-    loadImage('Img/052.jpg'),
-    loadImage('Img/053.jpg'),
-    loadImage('Img/054.jpg'),
-    loadImage('Img/055.jpg'),
-    loadImage('Img/056.jpg'),
-    loadImage('Img/057.jpg'),
-    loadImage('Img/058.jpg'),
-    loadImage('Img/059.jpg'),
-    loadImage('Img/060.jpg'),
-    loadImage('Img/061.jpg'),
-    loadImage('Img/062.jpg'),
-    loadImage('Img/063.jpg'),
-    loadImage('Img/064.jpg'),
-    loadImage('Img/065.jpg'),
-    loadImage('Img/066.jpg'),
-    loadImage('Img/067.jpg'),
-    loadImage('Img/068.jpg'),
-    loadImage('Img/069.jpg'),
-    loadImage('Img/070.jpg'),
-    loadImage('Img/071.jpg'),
-    loadImage('Img/072.jpg'),
-    loadImage('Img/073.jpg'),
-    loadImage('Img/074.jpg'),
-    loadImage('Img/075.jpg'),
-    loadImage('Img/076.jpg'),
-    loadImage('Img/077.jpg'),
-    loadImage('Img/078.jpg'),
-    loadImage('Img/079.jpg'),
-    loadImage('Img/080.jpg'),
-  ];
-  mobileBGImgs = [
-    loadImage('Img/050.jpg'),
-    loadImage('Img/051.jpg'),
-    loadImage('Img/052.jpg'),
-    loadImage('Img/053.jpg'),
-    loadImage('Img/054.jpg'),
-    loadImage('Img/055.jpg'),
-    loadImage('Img/056.jpg'),
-    loadImage('Img/057.jpg'),
-    loadImage('Img/058.jpg'),
-    loadImage('Img/059.jpg'),
-    loadImage('Img/060.jpg'),
-    loadImage('Img/061.jpg'),
-    loadImage('Img/062.jpg'),
-    loadImage('Img/063.jpg'),
-    loadImage('Img/064.jpg'),
-    loadImage('Img/065.jpg'),
-    loadImage('Img/066.jpg'),
-    loadImage('Img/067.jpg'),
-    loadImage('Img/068.jpg'),
-    loadImage('Img/069.jpg'),
-    loadImage('Img/070.jpg'),
-    loadImage('Img/071.jpg'),
-    loadImage('Img/072.jpg'),
-    loadImage('Img/073.jpg'),
-    loadImage('Img/074.jpg'),
-    loadImage('Img/075.jpg'),
-    loadImage('Img/076.jpg'),
-    loadImage('Img/077.jpg'),
-    loadImage('Img/078.jpg'),
-    loadImage('Img/079.jpg'),
-    loadImage('Img/080.jpg'),
-  ];
-
   boxs = loadModel('Img/cube.obj');
   BGmodel = loadModel('Img/BG.obj');
   flower = loadModel('Img/flower.obj');
+  vid1 = createVideo('Img/gardenBG16-9blur.mp4');
+  vid1.hide();
+  vid2 = createVideo('Img/gardenBG9-16blur.mp4');
+  vid2.hide();
+
 }
 
 
@@ -93,9 +29,6 @@ function setup() {
   var canv = createCanvas(windowWidth, windowHeight, WEBGL);
   frameRate(30);
   camView = createCamera();
-  // camView.setPosition(0, 0, 0);
-  // camView.lookAt(0, 0, 0);
-  
   camView.ortho(windowWidth / 2, -windowWidth / 2, -windowHeight / 2, windowHeight / 2, 0, 4000);
 
   cam = createCapture(VIDEO);
@@ -104,17 +37,15 @@ function setup() {
   stroke(25,150,255);
   strokeWeight(1);
   textureMode(NORMAL);
+  
+  describe('rectangle with video as texture');
 }
 
 function draw() {
-  background(160,100,255);
-  moveFrame();
-  
+  background(330,100,200);
   // camView.setPosition(0, 0, 1600);
   // camView.lookAt(0, 0, -1000);
-
-  //orbitControl(8,8);
-  roangle++;
+  roangle=roangle+3;
   push();
   rotateX(-30);
   rotateY(-roangle);
@@ -139,7 +70,7 @@ function draw() {
   }
   for(let theta = 0; theta<v.length; theta++){
     for(let phi = 0; phi<v[theta].length; phi++){
-      tint(340,130-theta*10,205+theta*10);
+      tint(340,130-theta*10,215+theta*10);
       if(theta<v.length-1 && phi<v[theta].length-1){
         beginShape();
         vertex(v[theta][phi].x, v[theta][phi].y, v[theta][phi].z,0,1);
@@ -202,9 +133,9 @@ function draw() {
 
   push();
   if(screenH>screenW){
-    texture(mobileBGImgs[bgIndex]);
+    texture(vid2);
   }else{
-    texture(backgroundImgs[bgIndex]);
+    texture(vid1);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -223,9 +154,7 @@ function bumpin(A,r,f,angle){
 }
 
 //序列
-function moveFrame() {
-  bgIndex++;
-  if(bgIndex > backgroundImgs.length-1){
-    bgIndex=0;
-  }
+function mousePressed(){
+  vid1.loop();
+  vid2.loop();
 }

@@ -315,7 +315,7 @@ var Ripples = function (el, options) {
 	this.loadImage();
 
 	// Set correct clear color and blend mode (regular alpha blending)
-	gl.clearColor(0, 0, 0, 0);
+	gl.clearColor(0.2, 0.1, 0.2, 1);
 	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
 	// Plugin is successfully initialized!
@@ -361,8 +361,8 @@ Ripples.prototype = {
 			if (pointerEventsEnabled()) {
 				that.dropAtPointer(
 					pointer,
-					that.dropRadius * (big ? 1.5 : 1),
-					(big ? 0.14 : 0.01)
+					that.dropRadius * (big ? 2 : 1),
+					(big ? 0.8 : 0.01)
 				);
 			}
 		}
