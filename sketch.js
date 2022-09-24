@@ -40,8 +40,8 @@ function setup() {
   textureMode(NORMAL);
   
   describe('rectangle with video as texture');
-  vid1.loop();
-  vid2.loop();
+  vid1.elt.setAttribute('playsinline', true);
+  vid1.elt.setAttribute('autoplay', true);
 }
 
 function draw() {
@@ -136,9 +136,9 @@ function draw() {
 
   push();
   if(screenH>screenW){
-    texture(gif);
+    texture(vid2);
   }else{
-    texture(gif);
+    texture(vid1);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -157,7 +157,7 @@ function bumpin(A,r,f,angle){
 }
 
 //序列
-// function mousePressed(){
-//   vid1.loop();
-//   vid2.loop();
-// }
+function mousePressed(){
+  vid1.loop();
+  vid2.loop();
+}
