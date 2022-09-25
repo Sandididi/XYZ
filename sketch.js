@@ -15,14 +15,17 @@ function preload() {
   boxs = loadModel('Img/cube.obj');
   BGmodel = loadModel('Img/BG.obj');
   flower = loadModel('Img/flower.obj');
-  vid1 = createVideo('Img/gardenBG16-9blur.mp4');
-  vid1.hide();
-  vid2 = createVideo('Img/gardenBG9-16blur.mp4');
-  vid2.hide();
-  vid1.elt.setAttribute('playsinline', true);
-  vid1.elt.setAttribute('autoplay', true);
-  vid2.elt.setAttribute('playsinline', true);
-  vid2.elt.setAttribute('autoplay', true);
+  if(windowHeight>windowWidth){
+    vid2 = createVideo('Img/gardenBG9-16blur.mp4');
+    vid2.hide();
+    vid2.elt.setAttribute('playsinline', true);
+    vid2.elt.setAttribute('autoplay', true);
+  }else{
+    vid1 = createVideo('Img/gardenBG16-9blur.mp4');
+    vid1.hide();
+    vid1.elt.setAttribute('playsinline', true);
+    vid1.elt.setAttribute('autoplay', true);
+  }
 }
 
 
@@ -35,6 +38,7 @@ function setup() {
   camView.ortho(windowWidth / 2, -windowWidth / 2, -windowHeight / 2, windowHeight / 2, 0, 4000);
 
   cam = createCapture(VIDEO);
+  cam.size(20, 15);
   cam.hide();
   canv.parent("canvas-container");
   stroke(25,150,255);
@@ -158,6 +162,9 @@ function bumpin(A,r,f,angle){
 
 //序列
 function mousePressed(){
-  vid1.loop();
-  vid2.loop();
+  if(windowHeight>windowWidth){
+    vid2.loop();
+  }else{
+    vid1.loop();
+  }  
 }
