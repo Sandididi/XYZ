@@ -1,6 +1,8 @@
 
-let vid1;
+//let vid1;
 let vid2;
+let backgroundImgs=[];
+let bgIndex = 0;
 let cam;
 let BGmodel;
 let boxs;
@@ -21,10 +23,13 @@ function preload() {
     vid2.elt.setAttribute('playsinline', true);
     vid2.elt.setAttribute('autoplay', true);
   }else{
-    vid1 = createVideo('Img/gardenBG16-9blur.mp4');
-    vid1.hide();
-    vid1.elt.setAttribute('playsinline', true);
-    vid1.elt.setAttribute('autoplay', true);
+    for(let i = 0; i<480; i++){
+      backgroundImgs[i] = loadImage('Img/16-9_JPG/'+i+'.jpg');
+    }
+    // vid1 = createVideo('Img/gardenBG16-9blur.mp4');
+    // vid1.hide();
+    // vid1.elt.setAttribute('playsinline', true);
+    // vid1.elt.setAttribute('autoplay', true);
   }
 }
 
@@ -50,6 +55,7 @@ function setup() {
 
 function draw() {
   background(330,100,200);
+  moveFrame();
   // camView.setPosition(0, 0, 1600);
   // camView.lookAt(0, 0, -1000);
   roangle=roangle+3;
@@ -142,7 +148,7 @@ function draw() {
   if(screenH>screenW){
     texture(vid2);
   }else{
-    texture(vid1);
+    texture(backgroundImgs[bgIndex]);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -161,10 +167,17 @@ function bumpin(A,r,f,angle){
 }
 
 //序列
+function moveFrame() {
+  bgIndex++;
+  if(bgIndex > backgroundImgs.length-1){
+    bgIndex=0;
+  }
+}
 function mousePressed(){
   if(windowHeight>windowWidth){
     vid2.loop();
-  }else{
-    vid1.loop();
-  }  
+  }
+  // else{
+  //   vid1.loop();
+  // }  
 }
