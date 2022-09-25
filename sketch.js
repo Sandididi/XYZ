@@ -5,7 +5,6 @@ let backgroundImgs=[];
 let bgIndex = 0;
 let cam;
 let BGmodel;
-let boxs;
 let flower;
 
 let v=[];
@@ -14,7 +13,6 @@ let roangle=0;
 
 
 function preload() {
-  boxs = loadModel('Img/cube.obj');
   BGmodel = loadModel('Img/BG.obj');
   flower = loadModel('Img/flower.obj');
   if(windowHeight>windowWidth){
