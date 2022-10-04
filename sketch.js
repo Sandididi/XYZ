@@ -12,32 +12,32 @@ let roangle = 0;
 let loadcount = 0;
 let percent = 0;
 
-function ImgLoaded(){
-  $("h3").text(percent+1+" %");
-  if(percent>=99){
-    $(".loading").fadeOut();
-    $(".alert-font").fadeIn();
-    $(".alert").animate({opacity:'0.6'});
-    $(".alert").click(function () {
-      $('.alert').fadeOut();
-    });
-  }
-  loadcount++;
-  percent = parseInt(loadcount/480*100);
-}
-function phoneImgLoaded(){
-  $("h3").text(percent+1+" %");
-  if(percent>=99){
-    $(".loading").fadeOut();
-    $(".alert-font").fadeIn();
-    $(".alert").animate({opacity:'0.6'});
-    $(".alert").click(function () {
-      $('.alert').fadeOut();
-    });
-  }
-  loadcount++;
-  percent = parseInt(loadcount/480*100);
-}
+// function ImgLoaded(){
+//   $("h3").text(percent+1+" %");
+//   if(percent>=99){
+//     $(".loading").fadeOut();
+//     $(".alert-font").fadeIn();
+//     $(".alert").animate({opacity:'0.6'});
+//     $(".alert").click(function () {
+//       $('.alert').fadeOut();
+//     });
+//   }
+//   loadcount++;
+//   percent = parseInt(loadcount/480*100);
+// }
+// function phoneImgLoaded(){
+//   $("h3").text(percent+1+" %");
+//   if(percent>=99){
+//     $(".loading").fadeOut();
+//     $(".alert-font").fadeIn();
+//     $(".alert").animate({opacity:'0.6'});
+//     $(".alert").click(function () {
+//       $('.alert').fadeOut();
+//     });
+//   }
+//   loadcount++;
+//   percent = parseInt(loadcount/480*100);
+// }
 function preload() {
   BGmodel = loadModel('Img/BG.obj');
 }
@@ -56,13 +56,15 @@ function setup() {
   canv.parent("canvas-container");
 
   if(windowHeight>windowWidth){
-    for(let i = 0; i<480; i++){
-      verticalImgs[i] = loadImage('Img/9-16_JPG/'+i+'.jpg', ImgLoaded);
-    }
+    verticalImgs[0] = loadImage('Img/9-16_JPG/0.jpg');
+    // for(let i = 0; i<480; i++){
+    //   verticalImgs[i] = loadImage('Img/9-16_JPG/'+i+'.jpg', ImgLoaded);
+    // }
   }else{
-    for(let i = 0; i<480; i++){
-      horizontalImgs[i] = loadImage('Img/16-9_JPG/'+i+'.jpg', phoneImgLoaded);
-    }
+    horizontalImgs[0] = loadImage('Img/16-9_JPG/0.jpg');
+    // for(let i = 0; i<480; i++){
+    //   horizontalImgs[i] = loadImage('Img/16-9_JPG/'+i+'.jpg', phoneImgLoaded);
+    // }
   }
 
   stroke(25,150,255);
@@ -72,7 +74,7 @@ function setup() {
 
 function draw() {
   background(330,100,200);
-  moveFrame();
+  // moveFrame();
   roangle=roangle+3;
   push();
   rotateX(-30);
@@ -127,9 +129,9 @@ function draw() {
 
   push();
   if(screenH>screenW){
-    texture(verticalImgs[vertIndex]);
+    texture(verticalImgs[0]);
   }else{
-    texture(horizontalImgs[horiIndex]);
+    texture(horizontalImgs[0]);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -148,14 +150,14 @@ function bumpin(A,r,f,angle){
 }
 
 //序列
-function moveFrame() {
-  horiIndex++;
-  vertIndex++;
-  if(horiIndex > horizontalImgs.length-1){
-    horiIndex=0;
-  }
-  if(vertIndex > verticalImgs.length-1){
-    vertIndex=0;
-  }
-}
+// function moveFrame() {
+//   horiIndex++;
+//   vertIndex++;
+//   if(horiIndex > horizontalImgs.length-1){
+//     horiIndex=0;
+//   }
+//   if(vertIndex > verticalImgs.length-1){
+//     vertIndex=0;
+//   }
+// }
 
