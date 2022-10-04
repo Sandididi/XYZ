@@ -1,7 +1,5 @@
-let horizontalImgs=[];
-let verticalImgs=[];
-let horiIndex = 0;
-let vertIndex = 0;
+let vid1;
+let vid2;
 let cam;
 let BGmodel;
 
@@ -9,35 +7,22 @@ let v=[];
 let rows = 6, cols=10;
 let roangle = 0;
 
-let loadcount = 0;
-let percent = 0;
+//let loadcount = 0;
+let percent = false;
 
-// function ImgLoaded(){
-//   $("h3").text(percent+1+" %");
-//   if(percent>=99){
-//     $(".loading").fadeOut();
-//     $(".alert-font").fadeIn();
-//     $(".alert").animate({opacity:'0.6'});
-//     $(".alert").click(function () {
-//       $('.alert').fadeOut();
-//     });
-//   }
-//   loadcount++;
-//   percent = parseInt(loadcount/480*100);
-// }
-// function phoneImgLoaded(){
-//   $("h3").text(percent+1+" %");
-//   if(percent>=99){
-//     $(".loading").fadeOut();
-//     $(".alert-font").fadeIn();
-//     $(".alert").animate({opacity:'0.6'});
-//     $(".alert").click(function () {
-//       $('.alert').fadeOut();
-//     });
-//   }
-//   loadcount++;
-//   percent = parseInt(loadcount/480*100);
-// }
+function video1Loaded(){
+  //$("h3").text(percent+" %");
+  percent = true;
+  if(percent = true){
+    $(".loading").fadeOut();
+    $(".alert-font").fadeIn();
+    $(".alert").animate({opacity:'0.6'});
+    $(".alert").click(function () {
+      $('.alert').fadeOut();
+    });
+  }
+}
+
 function preload() {
   BGmodel = loadModel('Img/BG.obj');
 }
@@ -56,15 +41,15 @@ function setup() {
   canv.parent("canvas-container");
 
   if(windowHeight>windowWidth){
-    verticalImgs[0] = loadImage('Img/9-16_JPG/0.jpg');
-    // for(let i = 0; i<480; i++){
-    //   verticalImgs[i] = loadImage('Img/9-16_JPG/'+i+'.jpg', ImgLoaded);
-    // }
+    vid2 = createVideo('Img/9-16.mp4', video1Loaded);
+    vid2.hide();
+    vid2.elt.setAttribute('playsinline', true);
+    vid2.elt.setAttribute('autoplay', true);
   }else{
-    horizontalImgs[0] = loadImage('Img/16-9_JPG/0.jpg');
-    // for(let i = 0; i<480; i++){
-    //   horizontalImgs[i] = loadImage('Img/16-9_JPG/'+i+'.jpg', phoneImgLoaded);
-    // }
+    vid1 = createVideo('Img/16-9.mp4', video1Loaded);
+    vid1.hide();
+    vid1.elt.setAttribute('playsinline', true);
+    vid1.elt.setAttribute('autoplay', true);
   }
 
   stroke(25,150,255);
@@ -74,7 +59,6 @@ function setup() {
 
 function draw() {
   background(330,100,200);
-  // moveFrame();
   roangle=roangle+3;
   push();
   rotateX(-30);
@@ -129,9 +113,9 @@ function draw() {
 
   push();
   if(screenH>screenW){
-    texture(verticalImgs[0]);
+    texture(vid2);
   }else{
-    texture(horizontalImgs[0]);
+    texture(vid1);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -149,15 +133,10 @@ function bumpin(A,r,f,angle){
   return 1 + A*pow(r,2)*sin(f*angle);
 }
 
-//序列
-// function moveFrame() {
-//   horiIndex++;
-//   vertIndex++;
-//   if(horiIndex > horizontalImgs.length-1){
-//     horiIndex=0;
-//   }
-//   if(vertIndex > verticalImgs.length-1){
-//     vertIndex=0;
-//   }
-// }
-
+function mousePressed(){
+  if(windowHeight>windowWidth){
+    vid2.loop();
+  }else{
+    vid1.loop();
+  }
+}
