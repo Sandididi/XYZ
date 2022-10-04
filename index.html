@@ -7,7 +7,7 @@
     <title>DigitalMirrorGarden</title>
     <link rel="icon" type="image/png" href="Img/favicon.png"/>
     <link rel="stylesheet" type="text/css" href="style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"></script>
     <script src="jquery.ripples.js"></script>
     <script src="libraries/p5.js"></script>
     <!-- <script src="libraries/p5.sound.min.js"></script> -->
@@ -18,14 +18,25 @@
     <div id="canvas-container"></div>
     <div class="ripple"></div>
     <div class="alert">
-      <h4>點擊進入虛擬花園</h4>
-      <h5>請允許開啟相機並使用chrome瀏覽器進入花園...</h5>
+      <div class="loading">
+        <div class="loading-text">
+          <span class="loading-text-words">L</span>
+          <span class="loading-text-words">O</span>
+          <span class="loading-text-words">A</span>
+          <span class="loading-text-words">D</span>
+          <span class="loading-text-words">I</span>
+          <span class="loading-text-words">N</span>
+          <span class="loading-text-words">G</span>
+          <h3></h3>
+        </div>
+      </div>
+      <h4 class="alert-font">點擊進入虛擬花園</h4>
+      <h5 class="alert-font">請允許開啟相機並使用chrome瀏覽器進入花園...</h5>
     </div>
     <script>
       // click to fade out the alert message.
-      $('.alert').click(function () {
-        $('.alert').fadeOut();
-      });
+      $(".alert-font").hide();
+      
     </script>
 
     <script>
@@ -47,8 +58,8 @@
       document.addEventListener('click', event => {
         // get and record current time stamp.
         timeStamp = event.timeStamp;
-        // pack up data ready to be sent.
-        let data = [event.timeStamp, event.clientX, event.clientY];
+        // pack up data ready to be sent.// count clientX&clientY in this window
+        let data = [event.timeStamp, event.clientX / window.outerWidth*100, event.clientY / window.outerHeight*100];
         // send data.
         ws.send(data);
       });
@@ -65,12 +76,12 @@
         // split received data.
         let buffer = event.data.split(',');
 
-        // filter out the event from current client itself.
+        // filter out the event from current client itself. // put clientX、clientY in this window
         if (timeStamp != buffer[0]) {
           coordinate.push(parseInt(buffer[1]));
           coordinate.push(parseInt(buffer[2]));
-          var x = coordinate[0];
-          var y = coordinate[1];
+          var x = Math.round(coordinate[0]*window.outerWidth/100);
+          var y = Math.round(coordinate[1]*window.outerHeight/100);
           var dropRadius = 20;
           var strength = 0.6 + Math.random() * 0.04;
           $('.ripple').ripples('drop', x, y, dropRadius, strength);

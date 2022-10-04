@@ -1,42 +1,54 @@
-
-//let vid1;
-let vid2;
-let backgroundImgs=[];
-let bgIndex = 0;
+let horizontalImgs=[];
+let verticalImgs=[];
+let horiIndex = 0;
+let vertIndex = 0;
 let cam;
 let BGmodel;
 let flower;
 
 let v=[];
 let rows = 6, cols=10;
-let roangle=0;
+let roangle = 0;
 
+let loadcount = 0;
+let percent = 0;
 
+function ImgLoaded(){
+  $("h3").text(percent+1+" %");
+  if(percent>=99){
+    $(".loading").fadeOut();
+    $(".alert-font").fadeIn();
+    $(".alert").animate({opacity:'0.6'});
+    $(".alert").click(function () {
+      $('.alert').fadeOut();
+    });
+  }
+  loadcount++;
+  percent = parseInt(loadcount/480*100);
+}
+function phoneImgLoaded(){
+  $("h3").text(percent+1+" %");
+  if(percent>=99){
+    $(".loading").fadeOut();
+    $(".alert-font").fadeIn();
+    $(".alert").animate({opacity:'0.6'});
+    $(".alert").click(function () {
+      $('.alert').fadeOut();
+    });
+  }
+  loadcount++;
+  percent = parseInt(loadcount/480*100);
+}
 function preload() {
   BGmodel = loadModel('Img/BG.obj');
   flower = loadModel('Img/flower.obj');
-  if(windowHeight>windowWidth){
-    vid2 = createVideo('Img/gardenBG9-16blur.mp4');
-    vid2.hide();
-    vid2.elt.setAttribute('playsinline', true);
-    vid2.elt.setAttribute('autoplay', true);
-  }else{
-    for(let i = 0; i<480; i++){
-      backgroundImgs[i] = loadImage('Img/16-9_JPG/'+i+'.jpg');
-    }
-    // vid1 = createVideo('Img/gardenBG16-9blur.mp4');
-    // vid1.hide();
-    // vid1.elt.setAttribute('playsinline', true);
-    // vid1.elt.setAttribute('autoplay', true);
-  }
 }
-
 
 function setup() {
   colorMode(HSB,360,255,255);
   angleMode(DEGREES);
   var canv = createCanvas(windowWidth, windowHeight, WEBGL);
-  frameRate(30);
+  frameRate(24);
   camView = createCamera();
   camView.ortho(windowWidth / 2, -windowWidth / 2, -windowHeight / 2, windowHeight / 2, 0, 4000);
 
@@ -44,18 +56,25 @@ function setup() {
   cam.size(20, 15);
   cam.hide();
   canv.parent("canvas-container");
+
+  if(windowHeight>windowWidth){
+    for(let i = 0; i<480; i++){
+      verticalImgs[i] = loadImage('Img/9-16_JPG/'+i+'.jpg', ImgLoaded);
+    }
+  }else{
+    for(let i = 0; i<480; i++){
+      horizontalImgs[i] = loadImage('Img/16-9_JPG/'+i+'.jpg', phoneImgLoaded);
+    }
+  }
+
   stroke(25,150,255);
-  strokeWeight(1);
   textureMode(NORMAL);
   
-  describe('rectangle with video as texture');
 }
 
 function draw() {
   background(330,100,200);
   moveFrame();
-  // camView.setPosition(0, 0, 1600);
-  // camView.lookAt(0, 0, -1000);
   roangle=roangle+3;
   push();
   rotateX(-30);
@@ -144,9 +163,9 @@ function draw() {
 
   push();
   if(screenH>screenW){
-    texture(vid2);
+    texture(verticalImgs[vertIndex]);
   }else{
-    texture(backgroundImgs[bgIndex]);
+    texture(horizontalImgs[horiIndex]);
   }
   translate(0,0,-1000);
   scale(screenW,screenH,10);
@@ -166,16 +185,13 @@ function bumpin(A,r,f,angle){
 
 //序列
 function moveFrame() {
-  bgIndex++;
-  if(bgIndex > backgroundImgs.length-1){
-    bgIndex=0;
+  horiIndex++;
+  vertIndex++;
+  if(horiIndex > horizontalImgs.length-1){
+    horiIndex=0;
+  }
+  if(vertIndex > verticalImgs.length-1){
+    vertIndex=0;
   }
 }
-function mousePressed(){
-  if(windowHeight>windowWidth){
-    vid2.loop();
-  }
-  // else{
-  //   vid1.loop();
-  // }  
-}
+
