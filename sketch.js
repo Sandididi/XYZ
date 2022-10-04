@@ -4,7 +4,6 @@ let horiIndex = 0;
 let vertIndex = 0;
 let cam;
 let BGmodel;
-let flower;
 
 let v=[];
 let rows = 6, cols=10;
@@ -41,7 +40,6 @@ function phoneImgLoaded(){
 }
 function preload() {
   BGmodel = loadModel('Img/BG.obj');
-  flower = loadModel('Img/flower.obj');
 }
 
 function setup() {
@@ -121,40 +119,6 @@ function draw() {
   v = [];
   pop();
   
-
-  push();
-  
-  rotateX(120);
-  noStroke();
-  scale(72+(mouseX/60));
-  smooth();
-  translate(0,1,-3);
-  tint(360,100,255);
-  
-  model(flower);
-  pop();
-  push();
-  rotateY(80);
-  rotateZ(30);
-  rotateX(120);
-  noStroke();
-  scale(65+(mouseX/60));
-  smooth();
-  translate(0,1,-3);
-  tint(320,100,255);
-  model(flower);
-  pop();
-  push();
-  rotateY(-80);
-  rotateZ(0);
-  rotateX(80);
-  noStroke();
-  scale(80+(mouseX/60));
-  smooth();
-  translate(0,1.5,-1);
-  tint(350,100,255);
-  model(flower);
-  pop();
 
   pop();
   //Size 16:9  9:16
