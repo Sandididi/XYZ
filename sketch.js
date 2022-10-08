@@ -44,7 +44,9 @@ function preload() {
   leafTx = loadImage('Img/Leaves_tex.png', Loaded);
   EmoTx = loadImage('Img/EmoTX.jpg', Loaded);
 }
-
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight, WEBGL);
+}
 function setup() {
   colorMode(HSB,360,100,100);
   imageMode(CENTER);
@@ -75,8 +77,8 @@ function draw() {
     push();
       rotateY(-turn/16);
       tint(111,40,100);
-      TorusCube(leaf[0],windowWidth/2+300,windowHeight/2-200,360,0,360,20,10,30);
-      TorusCube(leaf[2],windowWidth/2+180,windowHeight/2-200,360,0,80,90,30,45);
+      TorusCube(leaf[0],windowWidth/2+300,windowHeight/2,360,0,360,20,10,30);
+      TorusCube(leaf[2],windowWidth/2+180,windowHeight/2,360,0,80,90,30,45);
     pop();
     push();
       rotateY(turn/12);
@@ -165,8 +167,8 @@ function TorusCube(ObjModel,r0,r1,thetaMax,phiMin,phiMax,cubeNum,size,offset){
       let y = r1*bump * sin(phi+turn+offset);
       let z = (r0+r1*bump * cos(phi+turn+offset))*cos(theta);
       translate(x,y,z);
-      rotateY(y*0.2);
-      rotateZ(z*0.2);
+      rotateY(y*0.5);
+      rotateZ(z*0.5);
       scale(size*(windowWidth*0.003)+phi*0.3);
       model(ObjModel);
       pop();
