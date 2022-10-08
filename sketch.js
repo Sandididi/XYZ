@@ -1,5 +1,6 @@
 
 let cam;
+let screen;
 let BGmodel;
 let ROflower=[],flower,leaf=[],emoji=[];
 let leafTx,EmoTx;
@@ -66,6 +67,7 @@ function setup() {
 
 function draw() {
   background(330,0,0);
+  screen = (windowWidth+windowHeight)/2;
   noStroke();
   roangle=roangle+3;
   //donutTurnel
@@ -77,25 +79,25 @@ function draw() {
     push();
       rotateY(-turn/16);
       tint(111,40,100);
-      TorusCube(leaf[0],windowWidth/2+300,windowHeight/2,360,0,360,20,10,30);
-      TorusCube(leaf[2],windowWidth/2+180,windowHeight/2,360,0,80,90,30,45);
+      TorusCube(leaf[0],screen,screen/4,360,0,360,20,10,30);
+      TorusCube(leaf[2],screen,screen/4,360,0,80,90,30,45);
     pop();
     push();
       rotateY(turn/12);
       translate(0,50,0);
       tint(140,20,100);
-      TorusCube(leaf[1],windowWidth/2+400,windowHeight/2-200,360,0,360,24,30,0);
+      TorusCube(leaf[1],screen,screen/4,360,0,360,24,30,0);
       tint(140,0,100);
-      TorusSphere(flower,windowWidth/2+350,windowHeight/2-100,360,0,360,40,15,-20);
+      TorusSphere(flower,screen,screen/4,360,0,360,40,15,-20);
     pop();
     push();
       //TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset)
       texture(EmoTx);
-      TorusEmoji(emoji[0],windowWidth/2+550,windowHeight/2,360,25,12,0);
+      TorusEmoji(emoji[0],screen,screen/2,360,25,12,0);
       rotateY(turn/3);
-      TorusEmoji(emoji[1],windowWidth/2+550,windowHeight/2,360,20,12,0);
+      TorusEmoji(emoji[1],screen,screen/2,360,20,12,0);
       rotateY(-turn/3+20);
-      TorusEmoji(emoji[2],windowWidth/2+550,windowHeight/2,360,60,10,0);
+      TorusEmoji(emoji[2],screen,screen/2,360,60,10,0);
     pop();
   pop();
   
