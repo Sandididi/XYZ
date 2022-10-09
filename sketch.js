@@ -27,13 +27,13 @@ function Loaded(){
       $('.alert').fadeOut();
     });
   }
-  percent = parseInt(loadcount/17*100);
+  percent = parseInt(loadcount/16*100);
 }
 
 function preload() {
   BGmodel = loadModel('Img/BG.obj', Loaded);
   flower = loadModel('Img/flower.obj', Loaded);
-  for(let j=0; j<6; j++){
+  for(let j=0; j<5; j++){
     ROflower[j] = loadModel('Img/ROflower'+j+'.obj', Loaded);
   }
   for(let i=0; i<4; i++){
@@ -46,13 +46,13 @@ function preload() {
   EmoTx = loadImage('Img/EmoTX.jpg', Loaded);
 }
 function windowResized() {
-  resizeCanvas(windowWidth, windowHeight, WEBGL);
+  resizeCanvas(windowWidth-10, windowHeight-10, WEBGL);
 }
 function setup() {
   colorMode(HSB,360,100,100);
   imageMode(CENTER);
   angleMode(DEGREES);
-  var canv = createCanvas(windowWidth, windowHeight, WEBGL);
+  var canv = createCanvas(windowWidth-10, windowHeight-10, WEBGL);
   frameRate(24);
   camView = createCamera();
   camView.perspective();
@@ -88,7 +88,7 @@ function draw() {
       tint(140,20,100);
       TorusCube(leaf[1],screen,screen/3,360,0,360,24,30,0);
       tint(140,0,100);
-      TorusSphere(flower,screen,screen/3,360,0,360,40,15,-20);
+      TorusSphere(flower,screen,screen/2,360,0,360,60,5,-20);
     pop();
     push();
       //TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset)
@@ -127,19 +127,18 @@ function draw() {
       rotateZ(-30);
       scale(56);
       smooth();
-      translate(0,0,0);
-      tint(286,40,90);
+      tint(100,60,60,30);
+      sphere(4.8,16,16);
+      tint(0,25,100,20);
       model(ROflower[0]);
-      tint(50,60,90);
+      tint(50,90,100,20);
       model(ROflower[1]);
-      tint(20,30,90);
+      tint(20,0,100);
       model(ROflower[2]);
-      tint(310,30,90);
+      tint(310,60,80,60);
       model(ROflower[3]);
-      tint(220,30,90);
+      tint(230,20,90,60);
       model(ROflower[4]);
-      tint(360,0,90);
-      model(ROflower[5]);
       texture(leafTx)
       model(leaf[3]);
     pop();
@@ -148,9 +147,9 @@ function draw() {
 
   push();
   noStroke();
-  translate(0,0,-1200);
+  translate(0,0,-1500);
   texture(cam);
-  scale(windowWidth*1.5,windowHeight*1.5,10);
+  scale(windowWidth*1.8,windowHeight*1.8,10);
   rotateX(90);
   tint(150,80,20);
   model(BGmodel);
@@ -182,9 +181,9 @@ function TorusSphere(ObjModel,r0,r1,thetaMax,phiMin,phiMax,cubeNum,size,offset){
     for(let phi=phiMin; phi<phiMax; phi+=cubeNum){
       push();
       let bump = 1+0.2*sin(phi*8)*sin(theta*6);
-      let x = (r0+r1*bump * cos(phi+turn+offset))*sin(theta);
-      let y = r1*bump * sin(phi+turn+offset);
-      let z = (r0+r1*bump * cos(phi+turn+offset))*cos(theta);
+      let x = (r0+r1*bump * cos(phi+(turn/4)+offset))*sin(theta);
+      let y = r1*bump * sin(phi+(turn/4)+offset);
+      let z = (r0+r1*bump * cos(phi+(turn/4)+offset))*cos(theta);
       translate(x,y,z);
       scale(size*(windowWidth*0.003)+phi*0.5);
       rotateX(x);
