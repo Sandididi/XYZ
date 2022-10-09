@@ -79,25 +79,25 @@ function draw() {
     push();
       rotateY(-turn/16);
       tint(111,40,100);
-      TorusCube(leaf[0],screen,screen/4,360,0,360,20,10,30);
+      TorusCube(leaf[0],screen,screen/2,360,0,360,20,15,30);
       TorusCube(leaf[2],screen,screen/4,360,0,80,90,30,45);
     pop();
     push();
       rotateY(turn/12);
       translate(0,50,0);
       tint(140,20,100);
-      TorusCube(leaf[1],screen,screen/4,360,0,360,24,30,0);
+      TorusCube(leaf[1],screen,screen/3,360,0,360,24,30,0);
       tint(140,0,100);
-      TorusSphere(flower,screen,screen/4,360,0,360,40,15,-20);
+      TorusSphere(flower,screen,screen/3,360,0,360,40,15,-20);
     pop();
     push();
       //TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset)
       texture(EmoTx);
       TorusEmoji(emoji[0],screen,screen/2,360,25,12,0);
       rotateY(turn/3);
-      TorusEmoji(emoji[1],screen,screen/2,360,20,12,0);
+      TorusEmoji(emoji[1],screen,screen/2,360,25,12,0);
       rotateY(-turn/3+20);
-      TorusEmoji(emoji[2],screen,screen/2,360,60,10,0);
+      TorusEmoji(emoji[2],screen,screen/2,360,50,10,0);
     pop();
   pop();
   
