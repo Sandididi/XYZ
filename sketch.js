@@ -1,7 +1,7 @@
 
 let cam;
 let screen;
-let BGmodel;
+let BGmodel,noiseTx;
 let ROflower=[],flower,leaf=[],emoji=[];
 let leafTx,EmoTx;
 
@@ -44,12 +44,13 @@ function preload() {
   }
   leafTx = loadImage('Img/Leaves_tex.png', Loaded);
   EmoTx = loadImage('Img/EmoTX.jpg', Loaded);
+  noiseTx = loadImage('Img/glitch.png', Loaded);
 }
 function windowResized() {
   resizeCanvas(windowWidth-10, windowHeight-10, WEBGL);
 }
 function setup() {
-  colorMode(HSB,360,100,100);
+  colorMode(HSB,360,100,100,100);
   imageMode(CENTER);
   angleMode(DEGREES);
   var canv = createCanvas(windowWidth-10, windowHeight-10, WEBGL);
@@ -70,6 +71,7 @@ function draw() {
   screen = (windowWidth+windowHeight)/2;
   noStroke();
   roangle=roangle+3;
+  blendMode(ADD);
   //donutTurnel
   turn -= 2;
   push();
@@ -78,17 +80,17 @@ function draw() {
     translate(0,-800,0);
     push();
       rotateY(-turn/16);
-      tint(111,40,100);
+      tint(111,40,100,100,100);
       TorusCube(leaf[0],screen,screen/2,360,0,360,20,15,30);
       TorusCube(leaf[2],screen,screen/4,360,0,80,90,30,45);
     pop();
     push();
       rotateY(turn/12);
       translate(0,50,0);
-      tint(140,20,100);
+      tint(140,20,100,100,100);
       TorusCube(leaf[1],screen,screen/3,360,0,360,24,30,0);
-      tint(140,0,100);
-      TorusSphere(flower,screen,screen/2,360,0,360,60,5,-20);
+      tint(140,0,100,100,100);
+      TorusSphere(flower,screen,screen/3,360,0,360,40,15,-20);
     pop();
     push();
       //TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset)
@@ -104,22 +106,8 @@ function draw() {
   
 
   push();
-    texture(cam);
-    // push();
-    // rotateZ(roangle);
-    //   push();
-    //   //MirrorFlower(rows,cols,bendShape,bloom,angleY,angleZ,HueFlower)
-    //     translate(-windowWidth/4,-windowHeight/4,0);
-    //     MirrorFlower(6,5+cos(roangle/2)*5,0.3,16*cos(roangle/2)*15,0,0,340);
-    //     translate(windowWidth/2,0,0);
-    //     MirrorFlower(6,5+cos(roangle/2)*5,0.3,16*cos(roangle/2)*15,0,0,340);
-    //     translate(-windowWidth/2,windowHeight/2,0);
-    //     MirrorFlower(6,5+cos(roangle/2)*5,0.3,16*cos(roangle/2)*15,0,0,340);
-    //     translate(windowWidth/2,0,0);
-    //     MirrorFlower(6,5+cos(roangle/2)*5,0.3,16*cos(roangle/2)*15,0,0,340);
-    //   pop();
-    // pop();
     push();
+    texture(cam);
     rotateX(roangle/5);
     rotateY(roangle/6);
     scale(1+sin(roangle/2)*0.2);
@@ -127,31 +115,34 @@ function draw() {
       rotateZ(-30);
       scale(56);
       smooth();
-      tint(100,60,60,30);
-      sphere(4.8,16,16);
-      tint(0,25,100,20);
+      //tint(100,10,10,100);
+      //sphere(5,16,16);
+      tint(0,30,100,100);
       model(ROflower[0]);
-      tint(50,90,100,20);
+      tint(50,90,100,100);
       model(ROflower[1]);
-      tint(20,0,100);
+      tint(20,0,100,100);
       model(ROflower[2]);
-      tint(310,60,80,60);
+      tint(310,60,80,100);
       model(ROflower[3]);
-      tint(230,20,90,60);
+      tint(230,20,90,100);
       model(ROflower[4]);
       texture(leafTx)
       model(leaf[3]);
     pop();
-
+    push();
+        rotateZ(roangle/10);
+        TorusDot(screen);
+    pop();
   pop();
 
   push();
   noStroke();
-  translate(0,0,-1500);
-  texture(cam);
-  scale(windowWidth*1.8,windowHeight*1.8,10);
+  translate(0,0,500);
+  texture(noiseTx);
+  scale(windowWidth*0.3,windowHeight*0.3,10);
   rotateX(90);
-  tint(150,80,20);
+  tint(150,30,100,15);
   model(BGmodel);
   pop();
   
@@ -181,9 +172,9 @@ function TorusSphere(ObjModel,r0,r1,thetaMax,phiMin,phiMax,cubeNum,size,offset){
     for(let phi=phiMin; phi<phiMax; phi+=cubeNum){
       push();
       let bump = 1+0.2*sin(phi*8)*sin(theta*6);
-      let x = (r0+r1*bump * cos(phi+(turn/4)+offset))*sin(theta);
-      let y = r1*bump * sin(phi+(turn/4)+offset);
-      let z = (r0+r1*bump * cos(phi+(turn/4)+offset))*cos(theta);
+      let x = (r0+r1*bump * cos(phi+turn+offset))*sin(theta);
+      let y = r1*bump * sin(phi+turn+offset);
+      let z = (r0+r1*bump * cos(phi+turn+offset))*cos(theta);
       translate(x,y,z);
       scale(size*(windowWidth*0.003)+phi*0.5);
       rotateX(x);
@@ -207,50 +198,22 @@ function TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset){
     pop();
   }
 }
-function MirrorFlower(rows,cols,bendShape,bloom,angleY,angleZ,HueFlower){
-  rotateY(angleY);
-  rotateZ(angleZ);
-  push();
-  rotateX(0);
-  translate(0,0,bloom);
-  //rows=rows+round(mouseX/360);
-  //cols=cols+round(mouseY/180);
-      for(theta = 0; theta<rows; theta+=1){
-        v.push([]);
-        for(let phi=0; phi<cols; phi+=1){
-          let r = (80*pow(abs(sin(5/2*phi*360/cols)),1)+bloom)*theta/rows;
-          let x = r * cos(phi*360/cols);
-          let y = r * sin(phi*360/cols);
-          // let bumpin = 2*pow(r/100,2)*sin(phi*12);
-          // let z = 300*pow(Math.E,-0.1*pow(abs(r/100),1.5))*pow(abs(r/100),0.5)-180+bumpin;
-          let z = vShape(300,r/100,0.5,bendShape,1.5)-180+bumpin(1,r/100,12,phi*360/cols);
-          let pos = createVector(x,y,z);
-          v[theta].push(pos);
-        }
-      }
-      for(let theta = 0; theta<v.length; theta++){
-        for(let phi = 0; phi<v[theta].length; phi++){
-        tint(HueFlower,70-theta*10,80+theta*10);
-          if(theta<v.length-1 && phi<v[theta].length-1){
-            beginShape();
-            vertex(v[theta][phi].x, v[theta][phi].y, v[theta][phi].z,0,1);
-            vertex(v[theta+1][phi].x, v[theta+1][phi].y, v[theta+1][phi].z,0,0);
-            vertex(v[theta+1][phi+1].x, v[theta+1][phi+1].y, v[theta+1][phi+1].z,1,0);
-            vertex(v[theta][phi+1].x, v[theta][phi+1].y, v[theta][phi+1].z,1,1);
-            endShape(CLOSE);
-          }else if(theta<v.length-1 && phi == v[theta].length-1){
-            beginShape();
-            vertex(v[theta][phi].x, v[theta][phi].y, v[theta][phi].z,0,1);
-            vertex(v[theta][0].x, v[theta][0].y, v[theta][0].z,1,1);
-            vertex(v[theta+1][0].x, v[theta+1][0].y, v[theta+1][0].z,1,0);
-            vertex(v[theta+1][phi].x, v[theta+1][phi].y, v[theta+1][phi].z,0,0);
-            endShape(CLOSE);
-          }
-        }
-      }
-  v = [];
-  pop();
+function TorusDot(r0){
+  for(let theta=0; theta<360; theta+=30){
+    for(let phi=0; phi<360; phi+=30){
+      beginShape(POINTS);
+      let bump = 1+0.6*sin(phi*3)*sin(theta*6);
+      let x = (r0/4+r0*bump * cos(phi+(turn/5)))*sin(theta);
+      let y = r0*bump * sin(phi+(turn/5));
+      let z = (r0/4+r0*bump * cos(phi+(turn/5)))*cos(theta);
+      vertex(x,y,z);
+      endShape();
+      stroke(50,100,100,20);
+      strokeWeight(1);
+    }
+  }
 }
+
 function vShape(A,r,a,b,c){
   return A*pow(Math.E,-b*pow(abs(r),c))*pow(abs(r),a);
 }
