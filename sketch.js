@@ -1,9 +1,9 @@
 
 let cam;
 let screen;
-let BGmodel,noiseTx;
+let BGmodel,viewCube,noiseTx;
 let ROflower=[],flower,leaf=[],emoji=[];
-let leafTx,EmoTx;
+let leafTx,EmoTx,viewTx;
 
 let v=[];
 let rows = 6, cols=10, bendShape=0.1, bloom=300, angleY=0, angleZ=0, HueFlower=360;
@@ -19,7 +19,7 @@ let turn=0,offset=5;
 function Loaded(){
   loadcount++;
   $("h3").text(percent+1+" %");
-  if(percent>=90){
+  if(percent>=92){
     $(".loading").fadeOut();
     $(".alert-font").fadeIn();
     $(".alert").animate({opacity:'0.6'});
@@ -27,12 +27,13 @@ function Loaded(){
       $('.alert').fadeOut();
     });
   }
-  percent = parseInt(loadcount/16*100);
+  percent = parseInt(loadcount/19*100);
 }
 
 function preload() {
   BGmodel = loadModel('Img/BG.obj', Loaded);
   flower = loadModel('Img/flower.obj', Loaded);
+  viewCube = loadModel('Img/bgCube.obj', Loaded);
   for(let j=0; j<5; j++){
     ROflower[j] = loadModel('Img/ROflower'+j+'.obj', Loaded);
   }
@@ -45,6 +46,7 @@ function preload() {
   leafTx = loadImage('Img/Leaves_tex.png', Loaded);
   EmoTx = loadImage('Img/EmoTX.jpg', Loaded);
   noiseTx = loadImage('Img/glitch.png', Loaded);
+  viewTx = loadImage('Img/ViewbgTx.jpg', Loaded);
 }
 function windowResized() {
   resizeCanvas(windowWidth-10, windowHeight-10, WEBGL);
@@ -71,7 +73,7 @@ function draw() {
   screen = (windowWidth+windowHeight)/2;
   noStroke();
   roangle=roangle+3;
-  blendMode(ADD);
+  //blendMode(ADD);
   //donutTurnel
   turn -= 2;
   push();
@@ -115,8 +117,6 @@ function draw() {
       rotateZ(-30);
       scale(56);
       smooth();
-      //tint(100,10,10,100);
-      //sphere(5,16,16);
       tint(0,30,100,100);
       model(ROflower[0]);
       tint(50,90,100,100);
@@ -135,6 +135,14 @@ function draw() {
         TorusDot(screen);
     pop();
   pop();
+  push();
+  noStroke();
+  translate(0,0,-550);
+  texture(viewTx);
+  scale((windowHeight/4)*3,-windowHeight,10);
+  rotateX(90);
+  model(viewCube);
+  pop();
 
   push();
   noStroke();
@@ -142,10 +150,9 @@ function draw() {
   texture(noiseTx);
   scale(windowWidth*0.3,windowHeight*0.3,10);
   rotateX(90);
-  tint(150,30,100,15);
+  tint(150,30,100,30);
   model(BGmodel);
   pop();
-  
 }
 
 
