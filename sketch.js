@@ -73,7 +73,7 @@ function draw() {
   screen = (windowWidth+windowHeight)/2;
   noStroke();
   roangle=roangle+3;
-  //blendMode(ADD);
+  blendMode(ADD);
   //donutTurnel
   turn -= 2;
   push();
@@ -82,16 +82,16 @@ function draw() {
     translate(0,-800,0);
     push();
       rotateY(-turn/16);
-      tint(111,40,100,100,100);
+      tint(111,40,100,100);
       TorusCube(leaf[0],screen,screen/2,360,0,360,20,15,30);
       TorusCube(leaf[2],screen,screen/4,360,0,80,90,30,45);
     pop();
     push();
       rotateY(turn/12);
       translate(0,50,0);
-      tint(140,20,100,100,100);
+      tint(140,20,100,100);
       TorusCube(leaf[1],screen,screen/3,360,0,360,24,30,0);
-      tint(140,0,100,100,100);
+      tint(140,0,100,100);
       TorusSphere(flower,screen,screen/3,360,0,360,40,15,-20);
     pop();
     push();
@@ -219,11 +219,4 @@ function TorusDot(r0){
       strokeWeight(1);
     }
   }
-}
-
-function vShape(A,r,a,b,c){
-  return A*pow(Math.E,-b*pow(abs(r),c))*pow(abs(r),a);
-}
-function bumpin(A,r,f,angle){
-  return 1 + A*pow(r,2)*sin(f*angle);
 }
