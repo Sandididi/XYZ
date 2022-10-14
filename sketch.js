@@ -139,7 +139,7 @@ function draw() {
   noStroke();
   translate(0,0,-550);
   texture(viewTx);
-  scale((windowHeight/4)*3,-windowHeight,10);
+  scale(-(windowHeight/4)*3,-windowHeight,10);
   rotateX(90);
   model(viewCube);
   pop();
