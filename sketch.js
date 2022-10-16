@@ -20,12 +20,7 @@ function Loaded(){
   loadcount++;
   $("h3").text(percent+1+" %");
   if(percent>=92){
-    $(".loading").fadeOut();
-    $(".alert-font").fadeIn();
-    $(".alert").animate({opacity:'0.6'});
-    $(".alert").click(function () {
-      $('.alert').fadeOut();
-    });
+    $('.alert').fadeOut();
   }
   percent = parseInt(loadcount/19*100);
 }
