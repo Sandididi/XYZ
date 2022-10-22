@@ -20,12 +20,7 @@ function Loaded(){
   loadcount++;
   $("h3").text(percent+1+" %");
   if(percent>=92){
-    $(".loading").fadeOut();
-    $(".alert-font").fadeIn();
-    $(".alert").animate({opacity:'0.6'});
-    $(".alert").click(function () {
-      $('.alert').fadeOut();
-    });
+    $('.alert').fadeOut();
   }
   percent = parseInt(loadcount/19*100);
 }
@@ -81,9 +76,9 @@ function draw() {
     texture(leafTx);
     translate(0,-800,0);
     push();
-      rotateY(-turn/16);
+      rotateY(-turn/8);
       tint(111,40,100,100);
-      TorusCube(leaf[0],screen,screen/2,360,0,360,20,15,30);
+      TorusCube(leaf[0],screen,screen/2,360,0,360,24,15,30);
       TorusCube(leaf[2],screen,screen/4,360,0,80,90,30,45);
     pop();
     push();
@@ -112,7 +107,7 @@ function draw() {
     texture(cam);
     rotateX(roangle/5);
     rotateY(roangle/6);
-    scale(1+sin(roangle/2)*0.2);
+    scale(1.2+sin(roangle/2)*0.6);
       rotateX(120);
       rotateZ(-30);
       scale(56);
@@ -137,9 +132,9 @@ function draw() {
   pop();
   push();
   noStroke();
-  translate(0,0,-550);
+  translate(0,0,-1600);
   texture(viewTx);
-  scale(-(windowHeight/4)*3,-windowHeight,10);
+  scale(-(windowHeight/4)*4.8,-windowHeight*1.6,10);
   rotateX(90);
   model(viewCube);
   pop();
@@ -166,8 +161,8 @@ function TorusCube(ObjModel,r0,r1,thetaMax,phiMin,phiMax,cubeNum,size,offset){
       let y = r1*bump * sin(phi+turn+offset);
       let z = (r0+r1*bump * cos(phi+turn+offset))*cos(theta);
       translate(x,y,z);
-      rotateY(y*0.5);
-      rotateZ(z*0.5);
+      rotateY(y*0.3);
+      rotateZ(z*0.3);
       scale(size*(windowWidth*0.003)+phi*0.3);
       model(ObjModel);
       pop();
@@ -184,7 +179,7 @@ function TorusSphere(ObjModel,r0,r1,thetaMax,phiMin,phiMax,cubeNum,size,offset){
       let z = (r0+r1*bump * cos(phi+turn+offset))*cos(theta);
       translate(x,y,z);
       scale(size*(windowWidth*0.003)+phi*0.5);
-      rotateX(x);
+      rotateX(x*0.3);
       model(ObjModel);
       pop();
     }
@@ -200,7 +195,7 @@ function TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset){
       scale(size*(windowWidth*0.003));
       rotateY(90);
       rotateZ(90);
-      rotateX(x);
+      rotateX(x*0.3);
       model(ObjModel);
     pop();
   }
