@@ -87,7 +87,7 @@ function draw() {
       tint(140,20,100,100);
       TorusCube(leaf[1],screen,screen/3,360,0,360,24,30,0);
       tint(140,0,100,100);
-      TorusSphere(flower,screen,screen/3,360,0,360,40,15,-20);
+      TorusSphere(leaf[0],screen,screen/3,360,0,360,40,15,-20);
     pop();
     push();
       //TorusEmoji(ObjModel,r0,r1,thetaMax,cubeNum,size,offset)
